@@ -24,6 +24,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/create"\
       },\
       {\
+        "name": "dagshub",\
+        "reference": "workspace:packages/dagshub"\
+      },\
+      {\
         "name": "@fiftyone/debugger-plugin",\
         "reference": "workspace:packages/debugger"\
       },\
@@ -39,6 +43,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@fiftyone/debugger-plugin", ["workspace:packages/debugger"]],\
       ["@fiftyone/hello-world-plugin", ["workspace:packages/hello-world"]],\
       ["@fiftyone/plugin-build", ["workspace:packages/build"]],\
+      ["dagshub", ["workspace:packages/dagshub"]],\
       ["plugin-examples", ["workspace:."]]\
     ],\
     "fallbackPool": [\
@@ -1237,6 +1242,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["csstype", "npm:3.1.1"]\
           ],\
           "linkType": "HARD"\
+        }]\
+      ]],\
+      ["dagshub", [\
+        ["workspace:packages/dagshub", {\
+          "packageLocation": "./packages/dagshub/",\
+          "packageDependencies": [\
+            ["dagshub", "workspace:packages/dagshub"],\
+            ["@fiftyone/plugin-build", "workspace:packages/build"],\
+            ["nodemon", "npm:2.0.20"],\
+            ["react", "npm:18.2.0"],\
+            ["vite", "virtual:80c324452488abe10676cc015468d7ba604abd73a0c31ebc802b0d19f0dfa371561806aac1b732f6d97f45187a1496c24de914976e96fac6241c9ff5a6e4e3ea#npm:3.2.5"]\
+          ],\
+          "linkType": "SOFT"\
         }]\
       ]],\
       ["debug", [\

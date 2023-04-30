@@ -12,7 +12,7 @@ export function HelloWorld() {
   
   return (
     <h1>
-      You are viewing the <strong>{dataset.name}</strong> dataset.
+      You are viewiiiiing the <strong>{dataset.name}</strong> dataset.
       It has <Count field={fieldToCount} /> samples. 
     </h1>
   )
