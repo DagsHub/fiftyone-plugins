@@ -27,7 +27,8 @@ There are a few ways to use this repository.
 **Develop**
 
 1. run `yarn workspace $PLUGIN_NAME dev` to compile/watch the given plugin
-1. follow [these](https://github.com/voxel51/fiftyone/blob/develop/CONTRIBUTING.md) instructions to run Fiftyone from source.
+2. follow [these](https://github.com/voxel51/fiftyone/blob/develop/CONTRIBUTING.md) instructions to run Fiftyone from source.
+3. [Kirill's recommendation] Symlink the folder with the plugin into `$FIFTYONE_DIR/app/packages` for autocompletion to work (then work with the plugin in the symlinked directory, while building from the original folder)
 
 **Create your own Plugin**
 
