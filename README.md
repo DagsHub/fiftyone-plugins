@@ -2,9 +2,11 @@
 
 This repo serves as a registry for all **external** fiftyone plugins developed by Voxel51. If you are looking for Fiftyone core (built-in) plugins you can find them [here](https://github.com/voxel51/fiftyone/tree/develop/app).
 
-## Installing a plugin
+## Running plugins
 
-Each plugin is available in the public npm registry. You can install them by following the typical install instructions.
+To run the plugins you first need to build them (make sure you a `dist/index.umd.js` file in the plugin directory)
+
+After that set the `FIFTYONE_PLUGIN_DIR` environment variable to be the path to the `packages` directory. Fiftyone will pick them up after that.
 
 ## Contributing
 
