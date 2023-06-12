@@ -1,3 +1,5 @@
 node_modules
 .DS_Store
 dist
+# Keep build files for the plugin itself in the repo, so we don't have to build them with GH Actions
+!packages/dagshub/dist

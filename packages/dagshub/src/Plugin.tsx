@@ -3,8 +3,10 @@ import * as foa from '@fiftyone/aggregations';
 import * as fop from '@fiftyone/plugins';
 import {useRecoilValue} from 'recoil';
 import {Button} from "@fiftyone/components";
-import {useEffect} from "react";
+import {useEffect, useState, ReactDOM} from "react";
 import {DefaultSettings, Settings} from "./Settings";
+// import Modal from "@mui/material/Modal";
+import Modal from "@mui/material";
 
 export function Plugin() {
     const dataset = useRecoilValue(fos.dataset);
@@ -13,63 +15,57 @@ export function Plugin() {
 
     const settings = fop.usePluginSettings<Settings>("dagshub", DefaultSettings());
 
-    // Have to use the names, because selectedSampleObjects returns wrong values if there's anything pre-selected
-    const selectedSampleNames: Set<string> = useRecoilValue(fos.selectedSamples);
-    const sample_ids = Array.from(selectedSampleNames);
-    console.log("Selected sample names:", selectedSampleNames);
-    const selectedSampleElems = [];
+    const [saveDatasetModalOpen, setSaveDatasetModalOpen] = useState(false);
 
     // selectedSampleNames.forEach((e: string) => selectedSampleElems.push(
     //     <SampleView objName={"aaa"}/>
     // ))
 
 
-
-    let [aggregate, result, loading] = foa.useAggregation({view, filters, dataset, sample_ids})
-
-    const load = () => {
-        if (sample_ids.length === 0) {
-            result = [];
-            return Promise.resolve();
-        }
-        const aggregations = [
-            new foa.aggregations.Values({fieldOrExpr: "url"})
-        ];
-        return aggregate(aggregations, dataset.name);
-    }
-
-    const send = fos.useSendEvent();
-
     const toLabelStudio = () => {
-        send((session) => {
-            console.log(`Sending event for session ${session}`);
-        })
         fetch(`${settings.server}/labelstudio`, {
             method: "POST",
+        }).then(
+            (res) => console.log("Event sent!!")
+        );
+    }
+
+    const saveDataset = () => {
+        setSaveDatasetModalOpen(true);
+
+        fetch(`${settings.server}/save_dataset`, {
+            method: "POST",
             body: JSON.stringify({
-                data: {samples: result},
+                filters: filters,
             })
         }).then(
             (res) => console.log("Event sent!!")
         );
-        console.log("TO LABEL STUDIO")
     }
 
-    useEffect(() => {load();}, [selectedSampleNames]);
+    const handleSaveDatasetModalClose = () => {
+        setSaveDatasetModalOpen(false);
+    }
 
 
     return (
         <>
-            <h1>
-                Selected samples in dataset
-            </h1>
-            <ul>
-                {sample_ids.map(id => <li key={id}>{id}</li>)}
-            </ul>
-            <div>
-                <h3>{JSON.stringify(result)}</h3>
+            {/*<h1>*/}
+            {/*    Selected samples in dataset*/}
+            {/*</h1>*/}
+            {/*<ul>*/}
+            {/*    {sample_ids.map(id => <li key={id}>{id}</li>)}*/}
+            {/*</ul>*/}
+            {/*<div>*/}
+            {/*    <h3>{JSON.stringify(result)}</h3>*/}
+            {/*</div>*/}
+            <div style={{display: "flex", gap: "16px", margin: "50px"}}>
+                <Button onClick={toLabelStudio}>Annotate selected in LabelStudio</Button>
+                <Button onClick={saveDataset}>Save dataset</Button>
+                <Modal.Modal open={saveDatasetModalOpen} onClose={handleSaveDatasetModalClose}>
+                    <div>Hello!!!</div>
+                </Modal.Modal>
             </div>
-            <Button onClick={toLabelStudio}>To Label Studio</Button>
         </>
 
     )
