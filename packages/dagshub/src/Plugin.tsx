@@ -7,6 +7,7 @@ import {useEffect, useState, ReactDOM} from "react";
 import {DefaultSettings, Settings} from "./Settings";
 // import Modal from "@mui/material/Modal";
 import Modal from "@mui/material";
+import {SaveDatasetButton} from "./SaveDatasetButton";
 
 export function Plugin() {
     const dataset = useRecoilValue(fos.dataset);
@@ -14,13 +15,6 @@ export function Plugin() {
     const filters = useRecoilValue(fos.filters);
 
     const settings = fop.usePluginSettings<Settings>("dagshub", DefaultSettings());
-
-    const [saveDatasetModalOpen, setSaveDatasetModalOpen] = useState(false);
-
-    // selectedSampleNames.forEach((e: string) => selectedSampleElems.push(
-    //     <SampleView objName={"aaa"}/>
-    // ))
-
 
     const toLabelStudio = () => {
         fetch(`${settings.server}/labelstudio`, {
@@ -30,41 +24,12 @@ export function Plugin() {
         );
     }
 
-    const saveDataset = () => {
-        setSaveDatasetModalOpen(true);
-
-        fetch(`${settings.server}/save_dataset`, {
-            method: "POST",
-            body: JSON.stringify({
-                filters: filters,
-            })
-        }).then(
-            (res) => console.log("Event sent!!")
-        );
-    }
-
-    const handleSaveDatasetModalClose = () => {
-        setSaveDatasetModalOpen(false);
-    }
-
 
     return (
         <>
-            {/*<h1>*/}
-            {/*    Selected samples in dataset*/}
-            {/*</h1>*/}
-            {/*<ul>*/}
-            {/*    {sample_ids.map(id => <li key={id}>{id}</li>)}*/}
-            {/*</ul>*/}
-            {/*<div>*/}
-            {/*    <h3>{JSON.stringify(result)}</h3>*/}
-            {/*</div>*/}
             <div style={{display: "flex", gap: "16px", margin: "50px"}}>
                 <Button onClick={toLabelStudio}>Annotate selected in LabelStudio</Button>
-                <Button onClick={saveDataset}>Save dataset</Button>
-                <Modal.Modal open={saveDatasetModalOpen} onClose={handleSaveDatasetModalClose}>
-                    <div>Hello!!!</div>
-                </Modal.Modal>
+                <SaveDatasetButton/>
             </div>
         </>
 

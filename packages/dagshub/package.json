@@ -12,10 +12,15 @@
   },
   "dependencies": {
     "@fiftyone/plugin-build": "*",
-    "react": "^18.2.0"
+    "react": "^18.2.0",
+    "react-is": "^18.2.0",
+    "styled-components": "^5.3.11"
   },
   "devDependencies": {
     "nodemon": "^2.0.19",
     "vite": "^3.2.4"
+  },
+  "resolutions": {
+    "styled-components": "^5"
   }
 }
