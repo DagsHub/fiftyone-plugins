@@ -21,13 +21,22 @@ const modalStyle = {
 
 const ButtonContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+`;
+
+const ErrorDiv = styled.div`
+    color: red;
 `;
 
 interface SaveDatasetFormValue {
     name?: string;
     saveVoxelFilters?: boolean;
 }
+
+const ModalHeader = styled.h2`
+    margin-top: 0;
+`;
 
 
 export function SaveDatasetButton() {
@@ -36,28 +45,47 @@ export function SaveDatasetButton() {
     const settings = fop.usePluginSettings<Settings>("dagshub", DefaultSettings());
 
     const [modalOpen, setModalOpen] = useState(false);
+    const [sending, setSending] = useState(false);
+    const [errorText, setErrorText] = useState("");
 
     const [formState, setFormState] = useState<SaveDatasetFormValue>({
         saveVoxelFilters: true
     });
 
-    console.log(formState);
-
-    const saveDataset = () => {
-        fetch(`${settings.server}/save_dataset`, {
-            method: "POST",
-            body: JSON.stringify({
-                filters: filters,
-            })
-        }).then(
-            (res) => {
-                console.log("Event sent!!");
-                handleSaveDatasetModalClose();
-            }
-        );
+    const requestData = () => {
+        return JSON.stringify({
+            ...formState,
+            filters: filters,
+        });
     }
 
-    const handleSaveDatasetModalClose = () => {
+    const saveDataset = () => {
+        setSending(true);
+        setErrorText("");
+        fetch(`${settings.server}/save_dataset`, {
+            method: "POST",
+            body: requestData(),
+        }).then(
+            (res) => {
+                if (res.ok) {
+                    closeModal();
+                    return res.json();
+                } else {
+                    throw res;
+                }
+            }
+        ).catch(
+            (err) => {
+                err.text().then(text => {
+                    setErrorText(text);
+                })
+            }
+        ).finally(() => {
+            setSending(false);
+        });
+    }
+
+    const closeModal = () => {
         setModalOpen(false);
     }
 
@@ -72,16 +100,16 @@ export function SaveDatasetButton() {
     }
 
     const canSubmit = () => {
-        return !!formState.name;
+        return !sending && !!formState.name;
     }
 
 
     return (
         <>
-            <Button onClick={() => setModalOpen(true)}>Save view</Button>
-            <Modal open={modalOpen} onClose={handleSaveDatasetModalClose}>
+            <Button onClick={() => setModalOpen(true)}>Save dataset</Button>
+            <Modal open={modalOpen} onClose={closeModal}>
                 <Box sx={modalStyle}>
-                    <h2>Save view</h2>
+                    <ModalHeader>Save dataset</ModalHeader>
                     <FormGroup>
                         <TextField label={"View name"} name={"name"} value={formState.name}
                                    onChange={handleEvent(false)}/>
@@ -91,6 +119,7 @@ export function SaveDatasetButton() {
                                           label={"Include current FiftyOne filters"}/>
                         <ButtonContainer>
                             <Button onClick={saveDataset} disabled={!canSubmit()}>Save!</Button>
+                            {errorText && <ErrorDiv>{errorText}</ErrorDiv>}
                         </ButtonContainer>
                     </FormGroup>
                 </Box>

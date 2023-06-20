@@ -32,8 +32,8 @@ exports.defineConfig = function defineConfig(dir) {
         : undefined,
     ],
     build: {
-      // minify: true,
-      minify: false,
+      minify: true,
+      // minify: false,
       lib: {
         entry: path.join(dir, package.main),
         name: package.name,
