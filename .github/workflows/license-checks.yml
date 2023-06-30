@@ -16,6 +16,6 @@ jobs:
     - uses: actions/setup-node@v3
 
     - name: Download node_modules
-      run: yarn install --ignore-scripts
+      run: yarn install
       
     - uses: dagshub/node-license-checker-action@v1
