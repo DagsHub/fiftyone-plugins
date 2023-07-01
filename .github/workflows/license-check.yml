@@ -19,6 +19,9 @@ jobs:
       run: npm install --ignore-scripts
       
     - uses: dagshub/node-license-checker-action@v1
+      env:
+        # pacakges which actually live inside this repo, in packages/*
+        EXCLUDE_PACKAGES: '@fiftyone/create-plugin;@fiftyone/plugin-build;dagshub'
     
     - name: Download node_modules for dagshub plugin
       run: npm install --ignore-scripts
