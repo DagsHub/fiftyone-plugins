@@ -16,12 +16,12 @@ jobs:
     - uses: actions/setup-node@v3
 
     - name: Download node_modules
-      run: npm i
+      run: npm install --ignore-scripts
       
     - uses: dagshub/node-license-checker-action@v1
     
     - name: Download node_modules for dagshub plugin
-      run: npm i
+      run: npm install --ignore-scripts
       working-directory: packages/dagshub
       
     - uses: dagshub/node-license-checker-action@v1
