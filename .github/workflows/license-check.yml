@@ -24,4 +24,5 @@ jobs:
     - uses: dagshub/node-license-checker-action@v1
       env:
         TARGET_DIR: packages/dagshub
+        EXCLUDE_PACKAGES: 'dagshub'
         NPM_INSTALL_CMD: npm install --ignore-scripts
