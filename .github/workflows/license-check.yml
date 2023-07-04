@@ -12,9 +12,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-
-    - uses: actions/setup-node@v3
-      
     - uses: dagshub/node-license-checker-action@v1
       env:
         # pacakges which actually live inside this repo, in packages/*
@@ -26,3 +23,21 @@ jobs:
         TARGET_DIR: packages/dagshub
         EXCLUDE_PACKAGES: 'dagshub'
         NPM_INSTALL_CMD: npm install --ignore-scripts
+        
+    - name: Unify license.csv files
+      run: |
+        commit="$GITHUB_SHA"
+        base_link="github.com/$GITHUB_REPOSITORY"
+        date=`date "+%B %e %Y"`
+        awk -F',' -v "commit=$commit" -v "base_link=$base_link" -v "date=$date" '{OFS=","; print base_link,commit,date,$1,$2,$3}' licenses.csv >> node-licenses.csv
+
+        pkg="packages/dagshub"
+        awk -F',' -v "commit=$commit" -v "base_link=$base_link/tree/dev-dagshub/$pkg" -v "date=$date" '{OFS=","; print base_link,commit,date,$1,$2,$3}' $pkg/licenses.csv >> node-licenses.csv
+
+    - name: Upload node license report
+      uses: actions/upload-artifact@v3
+      with:
+        name: node-licenses.csv
+        path: node-licenses.csv
+        if-no-files-found: error
+        
