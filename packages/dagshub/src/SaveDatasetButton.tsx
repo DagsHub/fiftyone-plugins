@@ -5,7 +5,7 @@ import * as fos from '@fiftyone/state';
 import {useState} from "react";
 import {Modal, Box, Checkbox, FormGroup, FormControlLabel, TextField, useFormControl} from "@mui/material";
 import styled from "styled-components";
-import {Button} from "@fiftyone/components";
+import {Button, Tooltip} from "@fiftyone/components";
 
 const modalStyle = {
     position: "absolute" as "absolute",
@@ -27,6 +27,10 @@ const ButtonContainer = styled.div`
 
 const ErrorDiv = styled.div`
     color: red;
+`;
+
+const TooltipDiv = styled.div`
+  color: var(--fo-palette-text-secondary);
 `;
 
 interface SaveDatasetFormValue {
@@ -103,20 +107,25 @@ export function SaveDatasetButton() {
         return !sending && !!formState.name;
     }
 
+    const tooltipText = "Note: does not save limits, e.g. head()"
+
 
     return (
         <>
             <Button onClick={() => setModalOpen(true)}>Save dataset</Button>
             <Modal open={modalOpen} onClose={closeModal}>
                 <Box sx={modalStyle}>
-                    <ModalHeader>Save dataset</ModalHeader>
+                    <ModalHeader>
+                        Save dataset
+                    </ModalHeader>
                     <FormGroup>
-                        <TextField label={"View name"} name={"name"} value={formState.name}
+                        <TextField label={"Dataset name"} name={"name"} value={formState.name}
                                    onChange={handleEvent(false)}/>
                         <FormControlLabel control={<Checkbox checked={formState.saveVoxelFilters}
                                                              name={"saveVoxelFilters"}
                                                              onChange={handleEvent(true)}/>}
                                           label={"Include current FiftyOne filters"}/>
+                        <TooltipDiv>{tooltipText}</TooltipDiv>
                         <ButtonContainer>
                             <Button onClick={saveDataset} disabled={!canSubmit()}>Save!</Button>
                             {errorText && <ErrorDiv>{errorText}</ErrorDiv>}

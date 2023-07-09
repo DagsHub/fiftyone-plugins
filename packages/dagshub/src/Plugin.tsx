@@ -20,8 +20,21 @@ export function Plugin() {
         fetch(`${settings.server}/labelstudio`, {
             method: "POST",
         }).then(
-            (res) => console.log("Event sent!!")
-        );
+            (res) => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    throw res;
+                }
+            }
+        ).then(res => {
+            console.log("Need to open link", res["link"])
+            window.open(res["link"], '_blank').focus();
+        }).catch(errResp => {
+            errResp.content().then(text => {
+                console.error("Error while sending annotation to labelstudio", text)
+            })
+        });
     }
 
 
