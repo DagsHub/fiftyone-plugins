@@ -1491,8 +1491,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["dagshub", "workspace:packages/dagshub"],\
             ["@fiftyone/plugin-build", "workspace:packages/build"],\
             ["nodemon", "npm:2.0.20"],\
-            ["react", "npm:18.2.0"],\
-            ["react-is", "npm:18.2.0"],\
+            ["react", "npm:18.1.0"],\
+            ["react-is", "npm:18.1.0"],\
             ["styled-components", "virtual:4ffb83833f5f28a35c9a46ee18ff15ba00a0619cf23d63851008d821f2e3e2d9160752db6ea56ca509a250ec7ef99f5ad4be781fa01b671cc9fdd871ad843ad7#npm:5.3.11"],\
             ["vite", "virtual:80c324452488abe10676cc015468d7ba604abd73a0c31ebc802b0d19f0dfa371561806aac1b732f6d97f45187a1496c24de914976e96fac6241c9ff5a6e4e3ea#npm:3.2.5"]\
           ],\
@@ -2785,6 +2785,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["react", [\
+        ["npm:18.1.0", {\
+          "packageLocation": "./.yarn/cache/react-npm-18.1.0-d66a868dc8-5bb296b561.zip/node_modules/react/",\
+          "packageDependencies": [\
+            ["react", "npm:18.1.0"],\
+            ["loose-envify", "npm:1.4.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:18.2.0", {\
           "packageLocation": "./.yarn/cache/react-npm-18.2.0-1eae08fee2-88e38092da.zip/node_modules/react/",\
           "packageDependencies": [\
@@ -2824,10 +2832,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:18.2.0", {\
-          "packageLocation": "./.yarn/cache/react-is-npm-18.2.0-0cc5edb910-e72d0ba81b.zip/node_modules/react-is/",\
+        ["npm:18.1.0", {\
+          "packageLocation": "./.yarn/cache/react-is-npm-18.1.0-6642a99f70-d206a0fe67.zip/node_modules/react-is/",\
           "packageDependencies": [\
-            ["react-is", "npm:18.2.0"]\
+            ["react-is", "npm:18.1.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -3185,9 +3193,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["babel-plugin-styled-components", "virtual:c74a2869a3853ab700df147630e9d36c98651943add07197dec583216cce57087c9a800535d92819a3bc7da486c364424a9a02204e6ec1a15210de5baeece913#npm:2.1.3"],\
             ["css-to-react-native", "npm:3.2.0"],\
             ["hoist-non-react-statics", "npm:3.3.2"],\
-            ["react", "npm:18.2.0"],\
+            ["react", "npm:18.1.0"],\
             ["react-dom", null],\
-            ["react-is", "npm:18.2.0"],\
+            ["react-is", "npm:18.1.0"],\
             ["shallowequal", "npm:1.1.0"],\
             ["supports-color", "npm:5.5.0"]\
           ],\

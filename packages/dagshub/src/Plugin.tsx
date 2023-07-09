@@ -6,8 +6,22 @@ import {Button} from "@fiftyone/components";
 import {useEffect, useState, ReactDOM} from "react";
 import {DefaultSettings, Settings} from "./Settings";
 // import Modal from "@mui/material/Modal";
-import Modal from "@mui/material";
+import {Card, CardContent, CardHeader, Stack} from "@mui/material";
 import {SaveDatasetButton} from "./SaveDatasetButton";
+import styled from "styled-components";
+import {UpdateMetadataButton} from "./UpdateMetadataButton";
+
+const CardStack = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 16px;
+`
+
+const ActionsCard = styled(Card)`
+    min-width: 300px;
+`
 
 export function Plugin() {
     const dataset = useRecoilValue(fos.dataset);
@@ -40,10 +54,26 @@ export function Plugin() {
 
     return (
         <>
-            <div style={{display: "flex", gap: "16px", margin: "50px"}}>
-                <Button onClick={toLabelStudio}>Annotate selected in LabelStudio</Button>
-                <SaveDatasetButton/>
-            </div>
+            <CardStack>
+                <ActionsCard raised={true}>
+                    <CardHeader title={"Metadata"}/>
+                    <CardContent>
+                        <UpdateMetadataButton/>
+                    </CardContent>
+                </ActionsCard>
+                <ActionsCard raised={true}>
+                    <CardHeader title={"Dataset"}/>
+                    <CardContent>
+                        <SaveDatasetButton/>
+                    </CardContent>
+                </ActionsCard>
+                <ActionsCard raised={true}>
+                    <CardHeader title={"Annotations"}/>
+                    <CardContent>
+                        <Button onClick={toLabelStudio}>Annotate selected in LabelStudio</Button>
+                    </CardContent>
+                </ActionsCard>
+            </CardStack>
         </>
 
     )

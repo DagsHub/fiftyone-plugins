@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@fiftyone/plugin-build": "*",
-    "react": "^18.2.0",
-    "react-is": "^18.2.0",
+    "react": "18.1.0",
+    "react-is": "18.1.0",
     "styled-components": "^5.3.11"
   },
   "devDependencies": {

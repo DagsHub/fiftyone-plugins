@@ -4,43 +4,14 @@ import * as fop from '@fiftyone/plugins';
 import * as fos from '@fiftyone/state';
 import {useState} from "react";
 import {Modal, Box, Checkbox, FormGroup, FormControlLabel, TextField, useFormControl} from "@mui/material";
-import styled from "styled-components";
 import {Button, Tooltip} from "@fiftyone/components";
+import {ButtonContainer, ErrorDiv, ModalHeader, modalStyle, TooltipDiv} from "./common";
 
-const modalStyle = {
-    position: "absolute" as "absolute",
-    top: "50%",
-    left: "50%",
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-}
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row-reverse;
-`;
-
-const ErrorDiv = styled.div`
-    color: red;
-`;
-
-const TooltipDiv = styled.div`
-  color: var(--fo-palette-text-secondary);
-`;
 
 interface SaveDatasetFormValue {
     name?: string;
     saveVoxelFilters?: boolean;
 }
-
-const ModalHeader = styled.h2`
-    margin-top: 0;
-`;
 
 
 export function SaveDatasetButton() {
