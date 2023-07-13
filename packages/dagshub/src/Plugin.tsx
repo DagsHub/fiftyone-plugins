@@ -10,6 +10,7 @@ import {Card, CardContent, CardHeader, Stack} from "@mui/material";
 import {SaveDatasetButton} from "./SaveDatasetButton";
 import styled from "styled-components";
 import {UpdateMetadataButton} from "./UpdateMetadataButton";
+import {ErrorModalProvider} from "./ErrorModal";
 
 const CardStack = styled.div`
   display: flex;
@@ -54,26 +55,28 @@ export function Plugin() {
 
     return (
         <>
-            <CardStack>
-                <ActionsCard raised={true}>
-                    <CardHeader title={"Metadata"}/>
-                    <CardContent>
-                        <UpdateMetadataButton/>
-                    </CardContent>
-                </ActionsCard>
-                <ActionsCard raised={true}>
-                    <CardHeader title={"Dataset"}/>
-                    <CardContent>
-                        <SaveDatasetButton/>
-                    </CardContent>
-                </ActionsCard>
-                <ActionsCard raised={true}>
-                    <CardHeader title={"Annotations"}/>
-                    <CardContent>
-                        <Button onClick={toLabelStudio}>Annotate selected in LabelStudio</Button>
-                    </CardContent>
-                </ActionsCard>
-            </CardStack>
+            <ErrorModalProvider>
+                <CardStack>
+                    <ActionsCard raised={true}>
+                        <CardHeader title={"Metadata"}/>
+                        <CardContent>
+                            <UpdateMetadataButton/>
+                        </CardContent>
+                    </ActionsCard>
+                    <ActionsCard raised={true}>
+                        <CardHeader title={"Dataset"}/>
+                        <CardContent>
+                            <SaveDatasetButton/>
+                        </CardContent>
+                    </ActionsCard>
+                    <ActionsCard raised={true}>
+                        <CardHeader title={"Annotations"}/>
+                        <CardContent>
+                            <Button onClick={toLabelStudio}>Annotate selected in LabelStudio</Button>
+                        </CardContent>
+                    </ActionsCard>
+                </CardStack>
+            </ErrorModalProvider>
         </>
 
     )

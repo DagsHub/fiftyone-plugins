@@ -1492,7 +1492,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@fiftyone/plugin-build", "workspace:packages/build"],\
             ["nodemon", "npm:2.0.20"],\
             ["react", "npm:18.1.0"],\
-            ["react-is", "npm:18.1.0"],\
+            ["react-dom", "virtual:4ffb83833f5f28a35c9a46ee18ff15ba00a0619cf23d63851008d821f2e3e2d9160752db6ea56ca509a250ec7ef99f5ad4be781fa01b671cc9fdd871ad843ad7#npm:18.1.0"],\
+            ["react-is", "npm:17.0.2"],\
             ["styled-components", "virtual:4ffb83833f5f28a35c9a46ee18ff15ba00a0619cf23d63851008d821f2e3e2d9160752db6ea56ca509a250ec7ef99f5ad4be781fa01b671cc9fdd871ad843ad7#npm:5.3.11"],\
             ["vite", "virtual:80c324452488abe10676cc015468d7ba604abd73a0c31ebc802b0d19f0dfa371561806aac1b732f6d97f45187a1496c24de914976e96fac6241c9ff5a6e4e3ea#npm:3.2.5"]\
           ],\
@@ -2802,6 +2803,30 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["react-dom", [\
+        ["npm:18.1.0", {\
+          "packageLocation": "./.yarn/cache/react-dom-npm-18.1.0-bd83695a9a-bb0d48eeb0.zip/node_modules/react-dom/",\
+          "packageDependencies": [\
+            ["react-dom", "npm:18.1.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:4ffb83833f5f28a35c9a46ee18ff15ba00a0619cf23d63851008d821f2e3e2d9160752db6ea56ca509a250ec7ef99f5ad4be781fa01b671cc9fdd871ad843ad7#npm:18.1.0", {\
+          "packageLocation": "./.yarn/__virtual__/react-dom-virtual-43e65f9fea/0/cache/react-dom-npm-18.1.0-bd83695a9a-bb0d48eeb0.zip/node_modules/react-dom/",\
+          "packageDependencies": [\
+            ["react-dom", "virtual:4ffb83833f5f28a35c9a46ee18ff15ba00a0619cf23d63851008d821f2e3e2d9160752db6ea56ca509a250ec7ef99f5ad4be781fa01b671cc9fdd871ad843ad7#npm:18.1.0"],\
+            ["@types/react", null],\
+            ["loose-envify", "npm:1.4.0"],\
+            ["react", "npm:18.1.0"],\
+            ["scheduler", "npm:0.22.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/react",\
+            "react"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["react-inspector", [\
         ["npm:6.0.1", {\
           "packageLocation": "./.yarn/cache/react-inspector-npm-6.0.1-4b36e29023-877cbccf36.zip/node_modules/react-inspector/",\
@@ -2832,10 +2857,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:18.1.0", {\
-          "packageLocation": "./.yarn/cache/react-is-npm-18.1.0-6642a99f70-d206a0fe67.zip/node_modules/react-is/",\
+        ["npm:17.0.2", {\
+          "packageLocation": "./.yarn/cache/react-is-npm-17.0.2-091bbb8db6-9d6d111d89.zip/node_modules/react-is/",\
           "packageDependencies": [\
-            ["react-is", "npm:18.1.0"]\
+            ["react-is", "npm:17.0.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -3006,6 +3031,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/safer-buffer-npm-2.1.2-8d5c0b705e-cab8f25ae6.zip/node_modules/safer-buffer/",\
           "packageDependencies": [\
             ["safer-buffer", "npm:2.1.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["scheduler", [\
+        ["npm:0.22.0", {\
+          "packageLocation": "./.yarn/cache/scheduler-npm-0.22.0-63c9337981-a8ef5cab76.zip/node_modules/scheduler/",\
+          "packageDependencies": [\
+            ["scheduler", "npm:0.22.0"],\
+            ["loose-envify", "npm:1.4.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -3194,8 +3229,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["css-to-react-native", "npm:3.2.0"],\
             ["hoist-non-react-statics", "npm:3.3.2"],\
             ["react", "npm:18.1.0"],\
-            ["react-dom", null],\
-            ["react-is", "npm:18.1.0"],\
+            ["react-dom", "virtual:4ffb83833f5f28a35c9a46ee18ff15ba00a0619cf23d63851008d821f2e3e2d9160752db6ea56ca509a250ec7ef99f5ad4be781fa01b671cc9fdd871ad843ad7#npm:18.1.0"],\
+            ["react-is", "npm:17.0.2"],\
             ["shallowequal", "npm:1.1.0"],\
             ["supports-color", "npm:5.5.0"]\
           ],\

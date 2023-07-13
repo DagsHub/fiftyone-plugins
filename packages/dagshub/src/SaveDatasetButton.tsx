@@ -6,6 +6,7 @@ import {useState} from "react";
 import {Modal, Box, Checkbox, FormGroup, FormControlLabel, TextField, useFormControl} from "@mui/material";
 import {Button, Tooltip} from "@fiftyone/components";
 import {ButtonContainer, ErrorDiv, ModalHeader, modalStyle, TooltipDiv} from "./common";
+import {usePluginUrl} from "./util";
 
 
 interface SaveDatasetFormValue {
@@ -27,6 +28,8 @@ export function SaveDatasetButton() {
         saveVoxelFilters: true
     });
 
+    const pluginUrl = usePluginUrl();
+
     const requestData = () => {
         return JSON.stringify({
             ...formState,
@@ -37,7 +40,7 @@ export function SaveDatasetButton() {
     const saveDataset = () => {
         setSending(true);
         setErrorText("");
-        fetch(`${settings.server}/save_dataset`, {
+        fetch(pluginUrl("save_dataset"), {
             method: "POST",
             body: requestData(),
         }).then(
