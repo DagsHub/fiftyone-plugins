@@ -1,13 +1,15 @@
-
 import {registerComponent, PluginComponentType} from '@fiftyone/plugins'
-import {Plugin} from './Plugin'
+import {Plugin} from './Plugin';
+import {DagsHubIcon} from './Icon';
+import "./operator";
 
 registerComponent({
   name: 'dagshub',
   label: 'DagsHub',
   component: Plugin,
   type: PluginComponentType.Panel,
-  activator
+  Icon: DagsHubIcon,
+  activator,
 })
 
 function activator({dataset}) {
