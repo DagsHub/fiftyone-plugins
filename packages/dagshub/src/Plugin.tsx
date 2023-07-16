@@ -11,6 +11,7 @@ import {SaveDatasetButton} from "./SaveDatasetButton";
 import styled from "styled-components";
 import {UpdateMetadataButton} from "./UpdateMetadataButton";
 import {ErrorModalProvider} from "./ErrorModal";
+import {AlertSnackbarProvider} from "./AlertSnackbar";
 
 const CardStack = styled.div`
   display: flex;
@@ -21,7 +22,7 @@ const CardStack = styled.div`
 `
 
 const ActionsCard = styled(Card)`
-    min-width: 300px;
+  min-width: 300px;
 `
 
 export function Plugin() {
@@ -56,26 +57,28 @@ export function Plugin() {
     return (
         <>
             <ErrorModalProvider>
-                <CardStack>
-                    <ActionsCard raised={true}>
-                        <CardHeader title={"Metadata"}/>
-                        <CardContent>
-                            <UpdateMetadataButton/>
-                        </CardContent>
-                    </ActionsCard>
-                    <ActionsCard raised={true}>
-                        <CardHeader title={"Dataset"}/>
-                        <CardContent>
-                            <SaveDatasetButton/>
-                        </CardContent>
-                    </ActionsCard>
-                    <ActionsCard raised={true}>
-                        <CardHeader title={"Annotations"}/>
-                        <CardContent>
-                            <Button onClick={toLabelStudio}>Annotate selected in LabelStudio</Button>
-                        </CardContent>
-                    </ActionsCard>
-                </CardStack>
+                <AlertSnackbarProvider>
+                    <CardStack>
+                        <ActionsCard raised={true}>
+                            <CardHeader title={"Metadata"}/>
+                            <CardContent>
+                                <UpdateMetadataButton/>
+                            </CardContent>
+                        </ActionsCard>
+                        <ActionsCard raised={true}>
+                            <CardHeader title={"Dataset"}/>
+                            <CardContent>
+                                <SaveDatasetButton/>
+                            </CardContent>
+                        </ActionsCard>
+                        <ActionsCard raised={true}>
+                            <CardHeader title={"Annotations"}/>
+                            <CardContent>
+                                <Button onClick={toLabelStudio}>Annotate selected in LabelStudio</Button>
+                            </CardContent>
+                        </ActionsCard>
+                    </CardStack>
+                </AlertSnackbarProvider>
             </ErrorModalProvider>
         </>
 

@@ -1,6 +1,6 @@
 import {Button} from "@fiftyone/components";
 import {Autocomplete, Box, Checkbox, FormControlLabel, FormGroup, Grid, Modal, TextField} from "@mui/material";
-import {useEffect, useState} from "react";
+import {useEffect, useState, useRef} from "react";
 import {ModalHeader, TooltipDiv, wideModalStyle} from "./common";
 import {useRecoilState, useRecoilValue} from "recoil";
 import * as fop from '@fiftyone/plugins';
@@ -11,6 +11,7 @@ import {metadataFields} from "./datasourceUtil";
 import {MetadataFieldSchema, MetadataFieldType, validateFieldValue} from "./types";
 import styled from "styled-components";
 import {useErrorModal} from "./ErrorModal";
+import {useAlertSnackbar} from "./AlertSnackbar";
 
 // const FieldContainer = styled.div`
 //   display: flex;
@@ -41,15 +42,13 @@ export function UpdateMetadataButton() {
     const selected = useRecoilValue(fos.selectedSamples)
 
     const [modalOpen, setModalOpen] = useState(false);
-    const [sending, setSending] = useState(false);
-    const [errorText, setErrorText] = useState("");
 
-    const settings = fop.usePluginSettings<Settings>("dagshub", DefaultSettings());
     const [fieldValue, setFieldValue] = useState(undefined);
     const [selectedField, setSelectedField] = useState<MetadataFieldSchema | null>(null);
     const [validationError, setValidationError] = useState<string | null>(null);
 
     const setErrorModal = useErrorModal();
+    const setAlert = useAlertSnackbar();
 
     const closeModal = () => {
         setModalOpen(false);
@@ -57,6 +56,11 @@ export function UpdateMetadataButton() {
 
     const [fields, setFields] = useRecoilState(metadataFields);
     const pluginUrl = usePluginUrl();
+
+    const editableFields = useRef<MetadataFieldSchema[]>([]);
+    useEffect(() => {
+        editableFields.current = fields.filter(f => f.valueType !== MetadataFieldType.BLOB)
+    }, [fields])
 
     const raiseError = (res) => {
         console.error("ERRROR:", res);
@@ -67,7 +71,7 @@ export function UpdateMetadataButton() {
     const fetchFields = () => {
         if (!fields.length) {
             fetchOrFail(pluginUrl("datasource/fields"))
-                .then((res : string[]) => {
+                .then((res: string[]) => {
                     setFields(res.map(a => JSON.parse(a)));
                 })
                 .catch(res => raiseError(res))
@@ -75,9 +79,6 @@ export function UpdateMetadataButton() {
     }
 
     useEffect(fetchFields, []);
-
-    const elems = fields.map((s, i) => <div key={i}>{s.name}</div>)
-    const fieldNames = fields.map(s => s.name);
 
     const selectedFieldChanged = (event: any, newValue: MetadataFieldSchema | null) => {
         console.log("Set selected to", newValue);
@@ -101,7 +102,6 @@ export function UpdateMetadataButton() {
     };
 
     const updateMetadata = () => {
-        console.log("UPDATING");
         // Validate the field
         setValidationError(null);
         let val = null;
@@ -121,10 +121,11 @@ export function UpdateMetadataButton() {
             method: "POST",
             body: JSON.stringify(requestData)
         })
-            .then(res => console.log(res))
+            .then(_ => {
+                setAlert("Metadata updated");
+                closeModal();
+            })
             .catch(res => raiseError(res));
-
-        console.log(val);
     }
 
     const canSubmit = () => {
@@ -134,7 +135,7 @@ export function UpdateMetadataButton() {
     let fieldEdit;
     if (!selectedField) {
         fieldEdit = <FieldPlaceholder>Choose a field</FieldPlaceholder>;
-    } else if (selectedField.valueType == MetadataFieldType.BOOLEAN){
+    } else if (selectedField.valueType == MetadataFieldType.BOOLEAN) {
         fieldEdit = <FormControlLabel
             control={<Checkbox onChange={(ev) => fieldValueChanged(ev.target.checked)}/>}
             label="Value" style={fieldStyle}
@@ -149,39 +150,39 @@ export function UpdateMetadataButton() {
     }
 
     return (
-    <>
-        <Button onClick={() => setModalOpen(true)}>Update metadata for selected</Button>
-        <Modal open={modalOpen} onClose={closeModal}>
-            <Box sx={wideModalStyle}>
-                <ModalHeader>
-                    Update metadata for selected samples
-                </ModalHeader>
-                <FormGroup>
-                    <TooltipDiv>
-                        Currently {selected.size} sample(s) are selected
-                    </TooltipDiv>
-                    <Grid container spacing={2}>
-                        <Grid item xs={6}>
-                            <Autocomplete options={fields}
-                                          getOptionLabel={(option) => option.name}
-                                          renderInput={(params) => (
-                                              <TextField {...params}
-                                              label="Field"/>
-                                          )}
-                                          onChange={selectedFieldChanged}
-                                          style={fieldStyle}
-                            />
+        <>
+            <Button onClick={() => setModalOpen(true)}>Update metadata for selected</Button>
+            <Modal open={modalOpen} onClose={closeModal}>
+                <Box sx={wideModalStyle}>
+                    <ModalHeader>
+                        Update metadata for selected samples
+                    </ModalHeader>
+                    <FormGroup>
+                        <TooltipDiv>
+                            Currently {selected.size} sample(s) are selected
+                        </TooltipDiv>
+                        <Grid container spacing={2}>
+                            <Grid item xs={6}>
+                                <Autocomplete options={editableFields.current}
+                                              getOptionLabel={(option) => option.name}
+                                              renderInput={(params) => (
+                                                  <TextField {...params}
+                                                             label="Field"/>
+                                              )}
+                                              onChange={selectedFieldChanged}
+                                              style={fieldStyle}
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                {fieldEdit}
+                            </Grid>
                         </Grid>
-                        <Grid item xs={6}>
-                            {fieldEdit}
-                        </Grid>
-                    </Grid>
-                    <SubmitButtonContainer>
-                        <Button onClick={updateMetadata} disabled={!canSubmit()}>Save!</Button>
-                    </SubmitButtonContainer>
-                </FormGroup>
-            </Box>
-        </Modal>
-    </>
+                        <SubmitButtonContainer>
+                            <Button onClick={updateMetadata} disabled={!canSubmit()}>Save!</Button>
+                        </SubmitButtonContainer>
+                    </FormGroup>
+                </Box>
+            </Modal>
+        </>
     )
 }

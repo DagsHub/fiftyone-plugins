@@ -5,7 +5,7 @@ import {Button} from "@fiftyone/components";
 
 const ErrorContext = createContext(null);
 
-const ErrorModalProvider = (props: ProviderProps<null>) => {
+const ErrorModalProvider = (props) => {
     const [errorText, setErrorText] = useState();
     const unSetModal = useCallback(() => {
         setErrorText(undefined);
@@ -22,10 +22,6 @@ const ErrorModalProvider = (props: ProviderProps<null>) => {
 const ErrorModal = ({errorText, unSetModal}) => {
     const onClose = () => {
         unSetModal();
-    }
-
-    if (!!errorText) {
-        console.log("SHOWING MODAL", errorText);
     }
 
     return (
