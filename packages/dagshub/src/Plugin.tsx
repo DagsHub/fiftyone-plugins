@@ -33,6 +33,7 @@ export function Plugin() {
     const settings = fop.usePluginSettings<Settings>("dagshub", DefaultSettings());
 
     const toLabelStudio = () => {
+        // TODO: fix to use Fetch Or Fail here
         fetch(`${settings.server}/labelstudio`, {
             method: "POST",
         }).then(
@@ -51,6 +52,15 @@ export function Plugin() {
                 console.error("Error while sending annotation to labelstudio", text)
             })
         });
+    }
+
+    if (settings.in_colab) {
+        return <div>
+            <h1>The plugin currently doesn&apos;t work in Colab</h1>
+            <p>We&apos;re working on resolving this problem.
+                Let us know on our <a href={"https://discord.com/invite/9gU36Y6"}>Discord</a> if
+                you need this for your workflow</p>
+        </div>
     }
 
 

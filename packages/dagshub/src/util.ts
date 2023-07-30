@@ -28,6 +28,10 @@ export function usePluginUrl() {
         if (path.startsWith("/")) {
            path  = path.slice(1);
         }
-        return `${settings.server}/${path}`;
+        let serverUrl = settings.server;
+        if (serverUrl.endsWith("/")) {
+            serverUrl = serverUrl.slice(0, -1);
+        }
+        return `${serverUrl}/${path}`;
     }
 }

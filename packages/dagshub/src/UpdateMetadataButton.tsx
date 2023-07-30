@@ -81,7 +81,6 @@ export function UpdateMetadataButton() {
     useEffect(fetchFields, []);
 
     const selectedFieldChanged = (event: any, newValue: MetadataFieldSchema | null) => {
-        console.log("Set selected to", newValue);
         setSelectedField(newValue);
         setValidationError(null);
         if (newValue !== null && newValue.valueType == MetadataFieldType.BOOLEAN) {
