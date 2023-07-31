@@ -10,8 +10,9 @@ import {Card, CardContent, CardHeader, Stack} from "@mui/material";
 import {SaveDatasetButton} from "./SaveDatasetButton";
 import styled from "styled-components";
 import {UpdateMetadataButton} from "./UpdateMetadataButton";
-import {ErrorModalProvider} from "./ErrorModal";
+import {ErrorModalProvider, useErrorModal} from "./ErrorModal";
 import {AlertSnackbarProvider} from "./AlertSnackbar";
+import {fetchOrFail} from "./util";
 
 const CardStack = styled.div`
   display: flex;
@@ -25,12 +26,30 @@ const ActionsCard = styled(Card)`
   min-width: 300px;
 `
 
-export function Plugin() {
-    const dataset = useRecoilValue(fos.dataset);
-    const view = useRecoilValue(fos.view);
-    const filters = useRecoilValue(fos.filters);
+const BoundDatasetInfo = styled.h3`
+    margin: 20px 20px 0;
+`
 
+export function Plugin() {
     const settings = fop.usePluginSettings<Settings>("dagshub", DefaultSettings());
+
+    const [serverOnline, setServerOnline] = useState(false);
+    const [reconnectRetries, setReconnectRetries] = useState(0);
+
+    useEffect(() => {
+        console.log("Settings:", settings)
+    }, [settings.server, settings.datasource_name])
+
+    useEffect(() => {
+        fetchOrFail(settings.server).then(() => setServerOnline(true)).catch(() => setServerOnline(false));
+    }, [settings.server, settings.datasource_name, reconnectRetries])
+
+    if (!serverOnline) {
+        return <div>
+            <h1>The plugin server is not running</h1>
+            <Button onClick={() => setReconnectRetries(reconnectRetries + 1)}>Try to reconnect</Button>
+        </div>
+    }
 
     const toLabelStudio = () => {
         // TODO: fix to use Fetch Or Fail here
@@ -68,6 +87,7 @@ export function Plugin() {
         <>
             <ErrorModalProvider>
                 <AlertSnackbarProvider>
+                    <BoundDatasetInfo>Bound to datasource: {settings.datasource_name}</BoundDatasetInfo>
                     <CardStack>
                         <ActionsCard raised={true}>
                             <CardHeader title={"Metadata"}/>

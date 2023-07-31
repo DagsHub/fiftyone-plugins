@@ -1,6 +1,7 @@
 export interface Settings {
     server: string
     in_colab: boolean
+    datasource_name: string
 }
 
 export const DefaultSettings = (): Settings => {
@@ -8,5 +9,6 @@ export const DefaultSettings = (): Settings => {
         // server: "http://localhost:5152"
         server: "",
         in_colab: false,
+        datasource_name: "",
     };
 }
