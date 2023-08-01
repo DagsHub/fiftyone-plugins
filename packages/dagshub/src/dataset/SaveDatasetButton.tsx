@@ -1,12 +1,12 @@
-import {DefaultSettings, Settings} from "./Settings";
+import {DefaultSettings, Settings} from "../Settings";
 import {useRecoilValue} from "recoil";
 import * as fop from '@fiftyone/plugins';
 import * as fos from '@fiftyone/state';
 import {useState} from "react";
 import {Modal, Box, Checkbox, FormGroup, FormControlLabel, TextField, useFormControl} from "@mui/material";
 import {Button, Tooltip} from "@fiftyone/components";
-import {ButtonContainer, ErrorDiv, ModalHeader, modalStyle, TooltipDiv} from "./common";
-import {usePluginUrl} from "./util";
+import {ButtonContainer, ErrorDiv, ModalHeader, modalStyle, TooltipDiv} from "../common";
+import {usePluginUrl} from "../util";
 
 
 interface SaveDatasetFormValue {

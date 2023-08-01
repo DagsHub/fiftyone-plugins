@@ -7,12 +7,14 @@ import {useEffect, useState, ReactDOM} from "react";
 import {DefaultSettings, Settings} from "./Settings";
 // import Modal from "@mui/material/Modal";
 import {Card, CardContent, CardHeader, Stack} from "@mui/material";
-import {SaveDatasetButton} from "./SaveDatasetButton";
+import {SaveDatasetButton} from "./dataset/SaveDatasetButton";
 import styled from "styled-components";
-import {UpdateMetadataButton} from "./UpdateMetadataButton";
+import {UpdateMetadataButton} from "./metadata/UpdateMetadataButton";
 import {ErrorModalProvider, useErrorModal} from "./ErrorModal";
 import {AlertSnackbarProvider} from "./AlertSnackbar";
 import {fetchOrFail} from "./util";
+import {AnnotateSelectedButton} from "./annotation/AnnotateSelectedButton";
+import {RefreshDatasetButton} from "./dataset/RefreshDatasetButton";
 
 const CardStack = styled.div`
   display: flex;
@@ -27,7 +29,13 @@ const ActionsCard = styled(Card)`
 `
 
 const BoundDatasetInfo = styled.h3`
-    margin: 20px 20px 0;
+  margin: 20px 20px 0;
+`
+
+const CardContentStack = styled(CardContent)`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 `
 
 export function Plugin() {
@@ -51,27 +59,6 @@ export function Plugin() {
         </div>
     }
 
-    const toLabelStudio = () => {
-        // TODO: fix to use Fetch Or Fail here
-        fetch(`${settings.server}/labelstudio`, {
-            method: "POST",
-        }).then(
-            (res) => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    throw res;
-                }
-            }
-        ).then(res => {
-            console.log("Need to open link", res["link"])
-            window.open(res["link"], '_blank').focus();
-        }).catch(errResp => {
-            errResp.content().then(text => {
-                console.error("Error while sending annotation to labelstudio", text)
-            })
-        });
-    }
 
     if (settings.in_colab) {
         return <div>
@@ -91,21 +78,22 @@ export function Plugin() {
                     <CardStack>
                         <ActionsCard raised={true}>
                             <CardHeader title={"Metadata"}/>
-                            <CardContent>
+                            <CardContentStack>
                                 <UpdateMetadataButton/>
-                            </CardContent>
+                            </CardContentStack>
                         </ActionsCard>
                         <ActionsCard raised={true}>
                             <CardHeader title={"Dataset"}/>
-                            <CardContent>
+                            <CardContentStack>
+                                <RefreshDatasetButton/>
                                 <SaveDatasetButton/>
-                            </CardContent>
+                            </CardContentStack>
                         </ActionsCard>
                         <ActionsCard raised={true}>
                             <CardHeader title={"Annotations"}/>
-                            <CardContent>
-                                <Button onClick={toLabelStudio}>Annotate selected in LabelStudio</Button>
-                            </CardContent>
+                            <CardContentStack>
+                                <AnnotateSelectedButton/>
+                            </CardContentStack>
                         </ActionsCard>
                     </CardStack>
                 </AlertSnackbarProvider>

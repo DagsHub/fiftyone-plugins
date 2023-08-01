@@ -1,17 +1,17 @@
 import {Button} from "@fiftyone/components";
 import {Autocomplete, Box, Checkbox, FormControlLabel, FormGroup, Grid, Modal, TextField} from "@mui/material";
 import {useEffect, useState, useRef} from "react";
-import {ModalHeader, TooltipDiv, wideModalStyle} from "./common";
+import {ModalHeader, TooltipDiv, wideModalStyle} from "../common";
 import {useRecoilState, useRecoilValue} from "recoil";
 import * as fop from '@fiftyone/plugins';
 import * as fos from '@fiftyone/state';
-import {fetchOrFail, usePluginUrl} from "./util";
-import {DefaultSettings, Settings} from "./Settings";
-import {metadataFields} from "./datasourceUtil";
-import {MetadataFieldSchema, MetadataFieldType, validateFieldValue} from "./types";
+import {fetchOrFail, usePluginUrl} from "../util";
+import {DefaultSettings, Settings} from "../Settings";
+import {metadataFields} from "../datasourceUtil";
+import {MetadataFieldSchema, MetadataFieldType, validateFieldValue} from "../types";
 import styled from "styled-components";
-import {useErrorModal} from "./ErrorModal";
-import {useAlertSnackbar} from "./AlertSnackbar";
+import {useErrorModal} from "../ErrorModal";
+import {useAlertSnackbar} from "../AlertSnackbar";
 
 // const FieldContainer = styled.div`
 //   display: flex;
@@ -67,6 +67,9 @@ export function UpdateMetadataButton() {
         setErrorModal(res);
     }
 
+    const btnDisabled = () => {
+        return selected.size == 0;
+    }
 
     const fetchFields = () => {
         if (!fields.length) {
@@ -150,7 +153,7 @@ export function UpdateMetadataButton() {
 
     return (
         <>
-            <Button onClick={() => setModalOpen(true)}>Update metadata for selected</Button>
+            <Button onClick={() => setModalOpen(true)} disabled={btnDisabled()}>Update metadata for selected</Button>
             <Modal open={modalOpen} onClose={closeModal}>
                 <Box sx={wideModalStyle}>
                     <ModalHeader>
