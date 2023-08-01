@@ -6,7 +6,8 @@ import {useState} from "react";
 import {Modal, Box, Checkbox, FormGroup, FormControlLabel, TextField, useFormControl} from "@mui/material";
 import {Button, Tooltip} from "@fiftyone/components";
 import {ButtonContainer, ErrorDiv, ModalHeader, modalStyle, TooltipDiv} from "../common";
-import {usePluginUrl} from "../util";
+import {fetchOrFail, usePluginUrl} from "../util";
+import {useAlertSnackbar} from "../AlertSnackbar";
 
 
 interface SaveDatasetFormValue {
@@ -23,6 +24,7 @@ export function SaveDatasetButton() {
     const [modalOpen, setModalOpen] = useState(false);
     const [sending, setSending] = useState(false);
     const [errorText, setErrorText] = useState("");
+    const setAlert = useAlertSnackbar();
 
     const [formState, setFormState] = useState<SaveDatasetFormValue>({
         saveVoxelFilters: true
@@ -40,23 +42,17 @@ export function SaveDatasetButton() {
     const saveDataset = () => {
         setSending(true);
         setErrorText("");
-        fetch(pluginUrl("save_dataset"), {
+        fetchOrFail(pluginUrl("dataset/save"), {
             method: "POST",
             body: requestData(),
         }).then(
-            (res) => {
-                if (res.ok) {
-                    closeModal();
-                    return res.json();
-                } else {
-                    throw res;
-                }
+            () => {
+                setAlert("Dataset saved");
+                closeModal();
             }
         ).catch(
-            (err) => {
-                err.text().then(text => {
-                    setErrorText(text);
-                })
+            (errText) => {
+                setErrorText(errText);
             }
         ).finally(() => {
             setSending(false);
